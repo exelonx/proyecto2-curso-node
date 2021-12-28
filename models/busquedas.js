@@ -6,10 +6,23 @@ class Busquedas{
         //Leer DB si existe
     }
 
+    get paramsMapbox(){
+        return {
+            'limit': 5,
+            'language': 'es',
+            'access_token': process.env.MAPBOX_KEY
+        }
+    }
+
     async ciudad(lugar){
         try {
             //Petición HTTP
-            const resp = await axios.get('https://api.mapbox.com/geocoding/v5/mapbox.places/tegucigalpa.json?limit=5&language=es&access_token=pk.eyJ1IjoiZXhlbG9uIiwiYSI6ImNreG94MTlheTQ4aGoydG1mdnc0NHRhdnUifQ.yjTvO5O4zOf6IYw9bL-KWg')
+            const intance = axios.create({
+                baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
+                params: this.paramsMapbox
+            })
+
+            const resp = await intance.get();
             console.log(resp.data);
 
             return []
